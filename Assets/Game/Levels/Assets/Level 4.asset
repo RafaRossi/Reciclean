@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f591cb844072634986e68a577f6103b, type: 3}
+  m_Name: Level 4
+  m_EditorClassIdentifier: 
+  levelNum: 4
+  starsToUnlock: 4
+  timeToEarnStar: 5
+  trashCans:
+  - {fileID: 11400000, guid: 514d12b8186706c4584b8e4db7c068ef, type: 2}
+  trashes:
+  - {fileID: 11400000, guid: dbe88f44f351a304ab0dde543dadd6d8, type: 2}
