@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelSlot : MonoBehaviour
+public class LevelSlot : Button
 {
-    public Image[] starsImage = new Image[3];
-    public LevelInfo info;
+    public GameObject starsPrefab;
 
     public Level level;
 
     public Text text;
 
-    public Button button;
+    public GameObject starsHolder;
 
-    public void SetLevelInfo(LevelInfo levelInfo)
+    public void Initialize(Level level)
     {
-        info = levelInfo;
-        info.levelId = level.levelNum;
+        this.level = level;
 
         text.text = level.name;
 
@@ -26,23 +24,17 @@ public class LevelSlot : MonoBehaviour
 
     private void UpdateSlot()
     {
-        foreach (Image image in starsImage)
+        for (int i = 0; i < level.info.starCount; i++)
         {
-            image.enabled = false;
+            Instantiate(starsPrefab, starsHolder.transform);
         }
 
-        for (int i = 0; i < info.starCount; i++)
-        {
-            starsImage[i].enabled = true;
-        }
-
-        button.interactable = info.isUnlocked;
+        this.interactable = level.UnlockLevel(MenuManager.Instance.playerData.totalStars);
     }
 
     public void SetLevel()
     {
-        PersistentData.Instance.SetLevelToLoad(level);
-        PersistentData.Instance.SetLevelInfo(info);
-        MenuManager.Instance.LoadLevel("Level");
+        if(PersistentData.SetLevelToLoad(level))
+            MenuManager.Instance.LoadLevel("Level");
     }
 }

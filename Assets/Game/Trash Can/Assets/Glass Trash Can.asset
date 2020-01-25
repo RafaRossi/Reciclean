@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 270f46f0afd4b7946b818e89bfbb5eb2, type: 3}
   m_Name: Glass Trash Can
   m_EditorClassIdentifier: 
-  info:
-    type: 0
-    material: {fileID: 2100000, guid: 49ff3c0e31d157340a437543fb7f611c, type: 2}
+  type: {fileID: 11400000, guid: bbfdf8113478f3f4d94f1d27c20dfa83, type: 2}

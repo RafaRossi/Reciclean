@@ -15,4 +15,4 @@ MonoBehaviour:
   _name: "Sacola Pl\xE1stica"
   sprite: {fileID: 21300000, guid: 2a12771e8ef50f2429045dabcccbd317, type: 3}
   sound: {fileID: 8300000, guid: 1acc7d3af3763cc429c56623130a70dc, type: 3}
-  trash: 2
+  trash: {fileID: 11400000, guid: e4888fa6ecd54e743a252787939931d2, type: 2}

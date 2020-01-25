@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 270f46f0afd4b7946b818e89bfbb5eb2, type: 3}
   m_Name: Organic Trash Can
   m_EditorClassIdentifier: 
-  info:
-    type: 4
-    material: {fileID: 2100000, guid: 7bc19ff902a9e5f47a364e471048b0c1, type: 2}
+  type: {fileID: 11400000, guid: 2ac6cb1edc0020c49aa00a5d32289881, type: 2}

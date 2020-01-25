@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 024da63f075cba14d894d78419e2de3a, type: 3}
+  m_Name: Paper
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: 6bbf2b81430994644a24ddc9b36b4191, type: 2}

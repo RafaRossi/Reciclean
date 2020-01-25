@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Trash Can", menuName = "Trash Can")]
 public class Can : ScriptableObject
 {
-    public RecicleInfo info;
+    public TrashType type;
 }

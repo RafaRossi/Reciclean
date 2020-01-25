@@ -3,103 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : Manager<AudioManager>
 {
-    public static AudioManager Instance;
-
     [SerializeField] AudioSource musicAudioSource;
     [SerializeField] AudioSource effectsAudioSource;
+    [SerializeField] Settings settings;
 
-    public Image musicIcon;
-    public Image effectsIcon;
-
-    public Sprite musicIconOn;
-    public Sprite musicIconOff;
-
-    public Sprite effectsIconOn;
-    public Sprite effectsIconOff;
-
-    private bool playingMusic;
-    private bool playingEffects;
-
-
-    private void Awake()
+    private bool PlayingMusic
     {
-        Instance = this;
+        get => settings.playMusic.Value;
+        set => settings.playMusic.Value = value;
+    }
+    private bool PlayingEffects
+    {
+        get => settings.playSounds.Value;
+        set => settings.playSounds.Value = value;
     }
 
     private void Start()
     {
-        playingMusic = PlayerPrefs.GetInt("Music") == 1 ? true : false;
-        playingEffects = PlayerPrefs.GetInt("Effects") == 1 ? true : false;
+        musicAudioSource.enabled = PlayingMusic;
 
-        CheckMusicIcon(playingMusic);
-        CheckEffectsIcon(playingEffects);
-
-        if (playingMusic)
-        {
-            musicAudioSource.Play();
-        }
-
-        if (playingEffects)
-        {
-            effectsAudioSource.volume = 1;
-        }
-        else
-        {
-            effectsAudioSource.volume = 0;
-        }
+        effectsAudioSource.enabled = PlayingEffects;
     }
 
     public void ToggleMusic()
     {
-        playingMusic = !playingMusic;
+        musicAudioSource.enabled = PlayingMusic = !PlayingMusic;
 
-        if (playingMusic)
-        {
-            musicAudioSource.Play();
-            PlayerPrefs.SetInt("Music", 1);
-        }
-        else
-        {
-            musicAudioSource.Stop();
-            PlayerPrefs.SetInt("Music", 0);
-        }
-
-        CheckMusicIcon(playingMusic);
+        settings.playMusic.OnValueChanged();
     }
 
     public void ToggleEffects()
     {
-        playingEffects = !playingEffects;
-
-        if (playingEffects)
-        {
-            PlayerPrefs.SetInt("Effects", 1);
-        }
-        else
-        {
-            PlayerPrefs.SetInt("Effects", 0);
-        }
-
-        effectsAudioSource.volume = PlayerPrefs.GetInt("Effects");
-        CheckEffectsIcon(playingEffects);
-    }
-
-    void CheckMusicIcon(bool isOn)
-    {
-        if(musicIcon != null)
-            musicIcon.sprite = isOn ? musicIconOn : musicIconOff;
-    }
-
-    void CheckEffectsIcon(bool isOn)
-    {
-        if(effectsIcon != null)
-            effectsIcon.sprite = isOn ? effectsIconOn : effectsIconOff;
+        effectsAudioSource.enabled = PlayingEffects = !PlayingEffects;
+        
+        settings.playSounds.OnValueChanged();
     }
 
     public void PlayEffect(AudioClip effect)
     {
-        effectsAudioSource.PlayOneShot(effect);
+        if(effectsAudioSource.enabled)
+            effectsAudioSource.PlayOneShot(effect);
     }
 }

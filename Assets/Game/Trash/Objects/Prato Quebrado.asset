@@ -15,4 +15,4 @@ MonoBehaviour:
   _name: Prato Quebrado
   sprite: {fileID: 21300000, guid: ae1d968a0dc93a941909961a471b9052, type: 3}
   sound: {fileID: 8300000, guid: 2eb69fe6100e30d4daa1f44a53d00d8d, type: 3}
-  trash: 0
+  trash: {fileID: 11400000, guid: bbfdf8113478f3f4d94f1d27c20dfa83, type: 2}

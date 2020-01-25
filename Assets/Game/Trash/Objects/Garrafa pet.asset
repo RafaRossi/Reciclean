@@ -15,4 +15,4 @@ MonoBehaviour:
   _name: Garrafa Pet
   sprite: {fileID: 21300000, guid: 6883b7cd788dc6f438b6fd19184b4ff5, type: 3}
   sound: {fileID: 8300000, guid: 7c8975fdc3186b5419279d375cab1c10, type: 3}
-  trash: 2
+  trash: {fileID: 11400000, guid: e4888fa6ecd54e743a252787939931d2, type: 2}

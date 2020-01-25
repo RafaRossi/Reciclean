@@ -3,32 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Manager<Player>
 {
-    public static Player Instance;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
-
     public event Action OnFingerUp;
     public event Action OnFingerDown;
 
-    public GameManager game;
+    public int TotalStars
+    {
+        get => playerData.totalStars;
+        set => playerData.totalStars = value;
+    }
 
-    private Trash Trash {get; set;}
+    private Trash Trash { get; set; }
 
-    // Start is called before the first frame update
     void OnEnable()
     {
         OnFingerUp += FingerUp;
         OnFingerDown += FingerDown;
-    }
-
-    private void Start()
-    {
-        game = GameManager.Instance;
     }
 
     private void OnDisable()
@@ -37,7 +28,6 @@ public class Player : MonoBehaviour
         OnFingerDown -= FingerDown;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(Input.touchCount > 0)

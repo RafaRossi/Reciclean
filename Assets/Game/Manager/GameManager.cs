@@ -5,10 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Manager<GameManager>
 {
-    public static GameManager Instance;
-
     public List<AudioClip> hits = new List<AudioClip>();
     public AudioClip hitsEffect;
     public List<AudioClip> misses = new List<AudioClip>();
@@ -43,13 +41,6 @@ public class GameManager : MonoBehaviour
     private float timeStarted;
     private float currentTime;
 
-    private PersistentData data;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
-
     private void OnEnable()
     {
         foreach (TrashCan trashCan in trashCans)
@@ -60,10 +51,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        data = PersistentData.Instance;
-
-        if (PersistentData.Instance.level != null)
-            SetLevel(PersistentData.Instance.level);
+        if (PersistentData.levelToLoad != null)
+            SetLevel(PersistentData.levelToLoad);
         else
             OnLevelStarted.Invoke();
 
@@ -131,7 +120,7 @@ public class GameManager : MonoBehaviour
 
     public void EarnStars()
     {
-        LevelInfo level = data.levelToLoadInfo;
+        LevelInfo level = PersistentData.levelToLoad.info;
 
         int starsToEarn = 0;
 
@@ -155,7 +144,7 @@ public class GameManager : MonoBehaviour
         if(starsToEarn >= level.starCount)
         {
             level.starCount = starsToEarn;
-            data.Save();
+            //PersistentData.Save();
         }
 
         ShowStars(starsToEarn);
@@ -206,6 +195,12 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
+        if(PersistentData.SetLevelToLoad(PersistentData.levels[level.levelNum + 1]))
+        {
+            LoadScene("Level");
+        }
+        else OnGameOver.Invoke();   
+        /*
         for (int i = 0; i < data.levelAssests.Count; i++)
         {
             Level level = data.levelAssests[i];
@@ -215,7 +210,6 @@ public class GameManager : MonoBehaviour
                 if(i + 1 < data.levelAssests.Count)
                 {
                     data.SetLevelToLoad(data.levelAssests[i + 1]);
-                    data.SetLevelInfo(data.levels[i + 1]);
                     LoadScene("Level");
                 }
                 else
@@ -223,7 +217,7 @@ public class GameManager : MonoBehaviour
                     OnGameOver.Invoke();
                 }
             }
-        }
+        }*/
     }
 
     public void PlayTrashName()

@@ -5,53 +5,56 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-public class PersistentData : MonoBehaviour
+public static class PersistentData
 {
-    public static PersistentData Instance;
+    public static Dictionary<int, Level> levels = new Dictionary<int, Level>();
 
-    private void Awake()
+    public static Level levelToLoad;
+
+    public static void InitializeDictionary(List<Level> _levels)
     {
-        if (!Instance)
+        foreach (Level level in _levels)
         {
-            Instance = this;
+            levels.Add(level.levelNum, level);
         }
-        else
-            Destroy(gameObject);
-
-        DontDestroyOnLoad(gameObject);
     }
 
-    public List<LevelInfo> levels = new List<LevelInfo>();
-    public List<Level> levelAssests = new List<Level>();
-
-    public LevelInfo levelToLoadInfo;
-
-    public Level level;
-
-    public void SetLevelToLoad(Level level)
+    public static bool SetLevelToLoad(Level level)
     {
-        this.level = level;
+        if(level.UnlockLevel(Player.Instance.TotalStars))
+        {
+            levelToLoad = level;
+
+            return true;
+        }
+        return false;          
     }
 
-    public void SetLevelInfo(LevelInfo info)
+    public static Level GetLevel(int levelNum)
     {
-        levelToLoadInfo = info;
+        Level level = null;
+
+        if(levels.TryGetValue(levelNum, out level))
+        {
+            return level;
+        }
+        return null;
     }
 
-    public void Save()
+    public static void Save()
     {
         BinaryFormatter binary = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/gameData.inf");
 
         GameData data = new GameData();
 
-        data.levelsData = levels;
+        //data.levelsData = levels;
 
         binary.Serialize(file, data);
         file.Close();
     }
 
-    public bool Load()
+    public static bool Load()
     {
         if (File.Exists(Application.persistentDataPath + "/gameData.inf"))
         {
@@ -61,7 +64,7 @@ public class PersistentData : MonoBehaviour
             GameData data = (GameData)binary.Deserialize(file);
             file.Close();
 
-            levels = data.levelsData;
+            //levels = data.levelsData;
             return true;
         }
         else

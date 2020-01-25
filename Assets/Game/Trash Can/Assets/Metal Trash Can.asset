@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 270f46f0afd4b7946b818e89bfbb5eb2, type: 3}
   m_Name: Metal Trash Can
   m_EditorClassIdentifier: 
-  info:
-    type: 1
-    material: {fileID: 2100000, guid: 9245727465fc7b74d8f7ecc3f41b0bc3, type: 2}
+  type: {fileID: 11400000, guid: e46e99b7f51c85e4f9f51aa72b00898f, type: 2}

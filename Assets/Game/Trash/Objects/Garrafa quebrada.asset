@@ -15,4 +15,4 @@ MonoBehaviour:
   _name: Garrafa Quebrada
   sprite: {fileID: 21300000, guid: 5365fb0865c7901409cdbed35b5270b8, type: 3}
   sound: {fileID: 8300000, guid: 8a5f00f15fed1804fbb1fe36098a36d2, type: 3}
-  trash: 0
+  trash: {fileID: 11400000, guid: bbfdf8113478f3f4d94f1d27c20dfa83, type: 2}

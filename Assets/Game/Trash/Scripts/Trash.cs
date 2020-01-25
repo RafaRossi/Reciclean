@@ -73,13 +73,11 @@ public class Trash : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(1);
         trashCan = collision.gameObject.GetComponent<TrashCan>();
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log(2);
         if (other.gameObject.GetComponent<TrashCan>())
             trashCan = null;
     }
