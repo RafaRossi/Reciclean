@@ -7,34 +7,47 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Manager<GameManager>
 {
-    public List<AudioClip> hits = new List<AudioClip>();
-    public AudioClip hitsEffect;
-    public List<AudioClip> misses = new List<AudioClip>();
-    public AudioClip errorEffect;
-
     [SerializeField]
     private List<TrashCan> trashCans = new List<TrashCan>();
 
     public Trash trash;
 
-    [SerializeField] private Text missesText;
-    [SerializeField] private Text timeText;
-    [SerializeField] private Text trashNameText;
-    [SerializeField] private Text levelText;
+    [SerializeField] private Text missesText = null;
+    [SerializeField] private Text timeText = null;
+    [SerializeField] private Text trashNameText = null;
+    [SerializeField] private Text levelText = null;
 
-    private Vector3 trashHolderPosition;
+    private Vector3 trashHolderPosition = Vector3.zero;
 
     public Level level;
 
     public UnityEvent OnLevelStarted;
     public UnityEvent OnLevelEnded;
     public UnityEvent OnGameOver;
+
+    public UnityEvent OnPlayerScore;
+    public UnityEvent OnPlayerMissess;
+
     public UnityEvent OnHelpButtonClick;
     public UnityEvent OnUpdateUI;
 
-    public int Misses { get; set; }
+    private int _misses;
+    public int Misses
+    {
+        get
+        {
+            return _misses;
+        }
+        set
+        {
+            _misses = value;
 
-    public Image[] starImages;
+            OnPlayerMissess.Invoke();
+        }
+    }
+
+    public GameObject starPrefab;
+    public Transform starsHolder;
 
     private int currentLevelIndex = 0;
 
@@ -55,11 +68,6 @@ public class GameManager : Manager<GameManager>
             SetLevel(PersistentData.levelToLoad);
         else
             OnLevelStarted.Invoke();
-
-        foreach (Image image in starImages)
-        {
-            image.enabled = false;
-        }
 
         timeStarted = Time.time;
 
@@ -103,6 +111,7 @@ public class GameManager : Manager<GameManager>
         }
         else
         {
+            level.isComplete = true;
             OnLevelEnded.Invoke();
         }
     }
@@ -120,13 +129,13 @@ public class GameManager : Manager<GameManager>
 
     public void EarnStars()
     {
-        LevelInfo level = PersistentData.levelToLoad.info;
+        //LevelInfo level = PersistentData.levelToLoad.info;
 
         int starsToEarn = 0;
 
         if (Misses <= 0)
         {
-            level.noMissesStar = true;
+            //level.noMissesStar = true;
             starsToEarn += 1;
         }
 
@@ -134,19 +143,20 @@ public class GameManager : Manager<GameManager>
 
         if(time < this.level.timeToEarnStar)
         {
-            level.timeStar = true;
+            //level.timeStar = true;
             starsToEarn += 1;
         }
 
-        level.levelEndedStar = true;
+        //level.levelEndedStar = true;
         starsToEarn += 1;
 
-        if(starsToEarn >= level.starCount)
+        if(starsToEarn >= level.starsScored)
         {
-            level.starCount = starsToEarn;
+            level.starsScored = starsToEarn;
             //PersistentData.Save();
         }
 
+        PersistentData.playerData.UpdateStarAmount();
         ShowStars(starsToEarn);
     }
 
@@ -184,7 +194,7 @@ public class GameManager : Manager<GameManager>
     {
         for (int i = 0; i < stars; i++)
         {
-            starImages[i].enabled = true;
+            Instantiate(starPrefab, starsHolder);
         }
     }
 

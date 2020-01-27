@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Trash : MonoBehaviour
 {
@@ -21,10 +22,10 @@ public class Trash : MonoBehaviour
         Player.Instance.OnFingerUp += FingerUp;
     }
 
-    private void OnDisable()
+    /*private void OnDisable()
     {
         Player.Instance.OnFingerUp -= FingerUp;
-    }
+    }*/
 
     public void FingerUp()
     {
@@ -34,17 +35,19 @@ public class Trash : MonoBehaviour
             {
                 gameManager.SetTrash(1);
 
-                AudioClip clip = gameManager.hits[Random.Range(0, gameManager.hits.Count)];
-                audioManager.PlayEffect(clip);
-                audioManager.PlayEffect(gameManager.hitsEffect);
+                gameManager.OnPlayerScore.Invoke();
+
+                //AudioClip clip = gameManager.hits[Random.Range(0, gameManager.hits.Count)];
+                //audioManager.PlayEffect(clip);
+                //audioManager.PlayEffect(audioManager.hitsEffect);
             }
             else
             {
                 gameManager.Misses += 1;
 
-                AudioClip clip = gameManager.misses[Random.Range(0, gameManager.misses.Count)];
-                audioManager.PlayEffect(clip);
-                audioManager.PlayEffect(gameManager.errorEffect);
+                //AudioClip clip = gameManager.misses[Random.Range(0, gameManager.misses.Count)];
+                //audioManager.PlayEffect(clip);
+                //audioManager.PlayEffect(audioManager.errorEffect);
             }
         }
         trashCan = null;
@@ -62,7 +65,7 @@ public class Trash : MonoBehaviour
             trashItem = value;
 
             if(trashItem.sprite != null)
-                gameObject.GetComponent<SpriteRenderer>().sprite = trashItem.sprite;
+                gameObject.GetComponent<Image>().sprite = trashItem.sprite;
         }
     }
 

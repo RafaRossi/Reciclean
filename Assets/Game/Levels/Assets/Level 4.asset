@@ -15,6 +15,12 @@ MonoBehaviour:
   levelNum: 4
   starsToUnlock: 4
   timeToEarnStar: 5
+  isComplete: 0
+  info:
+    starCount: 0
+    levelEndedStar: 0
+    timeStar: 0
+    noMissesStar: 0
   trashCans:
   - {fileID: 11400000, guid: 514d12b8186706c4584b8e4db7c068ef, type: 2}
   trashes:

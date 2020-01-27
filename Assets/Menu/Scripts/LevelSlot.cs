@@ -29,7 +29,7 @@ public class LevelSlot : Button
             Instantiate(starsPrefab, starsHolder.transform);
         }
 
-        this.interactable = level.UnlockLevel(MenuManager.Instance.playerData.totalStars);
+        this.interactable = level.UnlockLevel(PersistentData.playerData.totalStars);
     }
 
     public void SetLevel()

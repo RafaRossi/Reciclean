@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEditor;
 
 public static class PersistentData
 {
@@ -11,17 +12,25 @@ public static class PersistentData
 
     public static Level levelToLoad;
 
-    public static void InitializeDictionary(List<Level> _levels)
+    public static PlayerData playerData = (PlayerData)AssetDatabase.LoadAssetAtPath("Assets/Game/Player/PlayerData.asset", typeof(PlayerData));
+
+    [RuntimeInitializeOnLoadMethod]
+    public static void InitializeDictionary()
     {
-        foreach (Level level in _levels)
+        levels.Clear();
+
+        foreach (Level level in playerData.levels)
         {
             levels.Add(level.levelNum, level);
         }
+
+        playerData.UpdateStarAmount();
     }
 
     public static bool SetLevelToLoad(Level level)
     {
-        if(level.UnlockLevel(Player.Instance.TotalStars))
+        Debug.Log(level.name);
+        if(level.UnlockLevel(playerData.totalStars))
         {
             levelToLoad = level;
 

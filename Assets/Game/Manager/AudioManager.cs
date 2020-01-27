@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class AudioManager : Manager<AudioManager>
 {
+    //public List<AudioClip> hits = new List<AudioClip>();
+    //public AudioClip hitsEffect;
+    //public List<AudioClip> misses = new List<AudioClip>();
+    //public AudioClip errorEffect;
+
     [SerializeField] AudioSource musicAudioSource;
     [SerializeField] AudioSource effectsAudioSource;
     [SerializeField] Settings settings;

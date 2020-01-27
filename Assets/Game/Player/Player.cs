@@ -8,12 +8,6 @@ public class Player : Manager<Player>
     public event Action OnFingerUp;
     public event Action OnFingerDown;
 
-    public int TotalStars
-    {
-        get => playerData.totalStars;
-        set => playerData.totalStars = value;
-    }
-
     private Trash Trash { get; set; }
 
     void OnEnable()

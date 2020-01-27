@@ -23,8 +23,6 @@ public class Manager<T> : MonoBehaviour where T : MonoBehaviour
             return _instance;
         }
     }
-
-    public PlayerData playerData;
     
     private void Awake()
     {
