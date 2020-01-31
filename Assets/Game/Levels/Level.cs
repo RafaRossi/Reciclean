@@ -14,6 +14,7 @@ public class Level : ScriptableObject
     public int starsScored = 0;
     public bool isComplete = false;
 
+    [Header("Level Properties")]
     public List<Can> trashCans = new List<Can>();
     public List<TrashAssets> trashes = new List<TrashAssets>();
 

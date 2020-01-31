@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class GameManager : Manager<GameManager>
@@ -12,12 +13,12 @@ public class GameManager : Manager<GameManager>
 
     public Trash trash;
 
-    [SerializeField] private Text missesText = null;
-    [SerializeField] private Text timeText = null;
-    [SerializeField] private Text trashNameText = null;
-    [SerializeField] private Text levelText = null;
+    [SerializeField] private TMP_Text missesText = null;
+    [SerializeField] private TMP_Text timeText = null;
+    [SerializeField] private TMP_Text trashNameText = null;
+    [SerializeField] private TMP_Text levelText = null;
 
-    [SerializeField] private Text nextLevelStarsText = null;
+    [SerializeField] private TMP_Text nextLevelStarsText = null;
 
     private Vector3 trashHolderPosition = Vector3.zero;
 
@@ -49,11 +50,6 @@ public class GameManager : Manager<GameManager>
         }
     }
 
-    public GameObject starPrefab;
-    public Transform starsHolder;
-
-    private int currentLevelIndex = 0;
-
     private float _time;
     private float Time
     {
@@ -69,6 +65,11 @@ public class GameManager : Manager<GameManager>
         }
     }
 
+    public GameObject starPrefab;
+    public Transform starsHolder;
+
+    private int currentLevelIndex = 0;
+
     private void OnEnable()
     {
         foreach (TrashCan trashCan in trashCans)
@@ -83,6 +84,8 @@ public class GameManager : Manager<GameManager>
             SetLevel(PersistentData.levelToLoad);
         else
             OnLevelStarted.Invoke();
+
+        StartCoroutine(UpdateTime());
     }
 
     private IEnumerator UpdateTime()
@@ -98,7 +101,7 @@ public class GameManager : Manager<GameManager>
     {
         this.level = level;
 
-        levelText.text = "Level " + level.levelNum;
+        levelText.text = level.levelNum.ToString();
 
         OnLevelStarted.Invoke();
     }
@@ -205,8 +208,6 @@ public class GameManager : Manager<GameManager>
 
         if(!canPlayNextLevel)
         {
-            nextLevelStarsText.enabled = true;
-
             nextLevelStarsText.text = "Stars Needed: " + PersistentData.levels[level.levelNum + 1].starsToUnlock;
         }     
     }

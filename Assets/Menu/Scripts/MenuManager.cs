@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem;
 
 public class MenuManager : Manager<MenuManager>
 {
@@ -21,7 +20,6 @@ public class MenuManager : Manager<MenuManager>
     {
         SceneManager.LoadScene(sceneName);
     }
-
     public void Quit()
     {
         Application.Quit();
