@@ -24,7 +24,7 @@ public class LevelSlot : Button
 
     private void UpdateSlot()
     {
-        for (int i = 0; i < level.info.starCount; i++)
+        for (int i = 0; i < level.starsScored; i++)
         {
             Instantiate(starsPrefab, starsHolder.transform);
         }

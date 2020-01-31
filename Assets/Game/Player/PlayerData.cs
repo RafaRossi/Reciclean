@@ -15,7 +15,7 @@ public class PlayerData : ScriptableObject
 
         foreach (Level level in levels)
         {
-            totalStars += level.info.starCount;    
+            totalStars += level.starsScored;    
         }
     }
 }

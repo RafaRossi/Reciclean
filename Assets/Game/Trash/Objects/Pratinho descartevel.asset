@@ -15,4 +15,4 @@ MonoBehaviour:
   _name: "Pratinho Descart\xE1vel"
   sprite: {fileID: 21300000, guid: ceda1c5e8e46e524db542c30c398f2be, type: 3}
   sound: {fileID: 8300000, guid: ec5f2e309cd1967408722b0c3068d908, type: 3}
-  trash: {fileID: 11400000, guid: e4888fa6ecd54e743a252787939931d2, type: 2}
+  trashType: {fileID: 11400000, guid: e4888fa6ecd54e743a252787939931d2, type: 2}

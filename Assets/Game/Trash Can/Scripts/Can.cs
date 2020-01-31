@@ -6,4 +6,5 @@ using UnityEngine;
 public class Can : ScriptableObject
 {
     public TrashType type;
+    public Sprite sprite;
 }

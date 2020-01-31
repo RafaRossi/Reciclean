@@ -15,4 +15,4 @@ MonoBehaviour:
   _name: Copo Quebrado
   sprite: {fileID: 21300000, guid: 2ef889f2c55095c4c8abc29ba674c0a2, type: 3}
   sound: {fileID: 8300000, guid: d4c82253735091c4189a94567cc75407, type: 3}
-  trash: {fileID: 11400000, guid: bbfdf8113478f3f4d94f1d27c20dfa83, type: 2}
+  trashType: {fileID: 11400000, guid: bbfdf8113478f3f4d94f1d27c20dfa83, type: 2}

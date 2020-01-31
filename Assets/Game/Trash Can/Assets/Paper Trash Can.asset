@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Paper Trash Can
   m_EditorClassIdentifier: 
   type: {fileID: 11400000, guid: ca6a0a3ffee049142be5e3c4721ddc5f, type: 2}
+  sprite: {fileID: 21300000, guid: 91c310f32718e424dbd5876c9b079a5d, type: 3}

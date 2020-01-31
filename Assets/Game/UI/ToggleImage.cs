@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class ToggleImage : MonoBehaviour
 {
-    [SerializeField] private Boolean _property;
+    [SerializeField] private Boolean _property = null;
 
-    [SerializeField] private Image _toggleImage;
+    [SerializeField] private Image _toggleImage = null;
     public Image Image
     {
         get

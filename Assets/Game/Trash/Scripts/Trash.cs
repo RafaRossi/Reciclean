@@ -2,58 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System;
 
 public class Trash : MonoBehaviour
 {
     private TrashAssets trashItem;
-    private GameManager gameManager;
-    private AudioManager audioManager;
-
-    public Rigidbody2D Rigidbody { get; private set; }
-
-    private TrashCan trashCan;
-
-    private void Start()
-    {
-        gameManager = GameManager.Instance;
-        audioManager = AudioManager.Instance;
-        Rigidbody = GetComponent<Rigidbody2D>();
-
-        Player.Instance.OnFingerUp += FingerUp;
-    }
-
-    /*private void OnDisable()
-    {
-        Player.Instance.OnFingerUp -= FingerUp;
-    }*/
-
-    public void FingerUp()
-    {
-        if(trashCan != null)
-        {
-            if (CheckTrashCan(trashCan))
-            {
-                gameManager.SetTrash(1);
-
-                gameManager.OnPlayerScore.Invoke();
-
-                //AudioClip clip = gameManager.hits[Random.Range(0, gameManager.hits.Count)];
-                //audioManager.PlayEffect(clip);
-                //audioManager.PlayEffect(audioManager.hitsEffect);
-            }
-            else
-            {
-                gameManager.Misses += 1;
-
-                //AudioClip clip = gameManager.misses[Random.Range(0, gameManager.misses.Count)];
-                //audioManager.PlayEffect(clip);
-                //audioManager.PlayEffect(audioManager.errorEffect);
-            }
-        }
-        trashCan = null;
-        gameManager.ResetPosition();
-    }
-
     public TrashAssets TrashItem
     {
         get
@@ -69,19 +23,35 @@ public class Trash : MonoBehaviour
         }
     }
 
-    public bool CheckTrashCan(TrashCan trashCan)
+    [SerializeField] private CanvasGroup canvasGroup = null;
+
+    private Vector3 trashHolderPosition;
+
+    private void Start()
     {
-        return trashCan.GetTrashType() == trashItem.trash;
+        trashHolderPosition = transform.position;
+        
+        Draggable draggable = GetComponent<Draggable>();
+
+        draggable.OnDragBegin += (e) => {
+            canvasGroup.blocksRaycasts = false;
+        };
+
+        draggable.Drag += MoveTrash;
+
+        draggable.OnDragEnd += (e) =>{
+            ResetPosition();
+            canvasGroup.blocksRaycasts = true;
+        };
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void MoveTrash(PointerEventData eventData)
     {
-        trashCan = collision.gameObject.GetComponent<TrashCan>();
+        transform.position = eventData.position;
     }
 
-    private void OnTriggerExit(Collider other)
+    private void ResetPosition()
     {
-        if (other.gameObject.GetComponent<TrashCan>())
-            trashCan = null;
+        transform.position = trashHolderPosition;
     }
 }

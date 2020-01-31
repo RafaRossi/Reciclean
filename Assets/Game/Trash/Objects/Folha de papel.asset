@@ -15,4 +15,4 @@ MonoBehaviour:
   _name: Folha de Papel
   sprite: {fileID: 21300000, guid: c0dbc46cbbc21bd45ab10b083ffeee59, type: 3}
   sound: {fileID: 8300000, guid: 96ef7aa14b3f8b84f9e70eb4e2f515d0, type: 3}
-  trash: {fileID: 11400000, guid: ca6a0a3ffee049142be5e3c4721ddc5f, type: 2}
+  trashType: {fileID: 11400000, guid: ca6a0a3ffee049142be5e3c4721ddc5f, type: 2}

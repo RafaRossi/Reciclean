@@ -15,4 +15,4 @@ MonoBehaviour:
   _name: Casca de Banana
   sprite: {fileID: 21300000, guid: 4c556b6756fdf124c9bde51b1aea9c56, type: 3}
   sound: {fileID: 8300000, guid: 5ca3309f8da1a9b47a3c14e314f5c959, type: 3}
-  trash: {fileID: 11400000, guid: 2ac6cb1edc0020c49aa00a5d32289881, type: 2}
+  trashType: {fileID: 11400000, guid: 2ac6cb1edc0020c49aa00a5d32289881, type: 2}

@@ -10,9 +10,9 @@ public class AudioManager : Manager<AudioManager>
     //public List<AudioClip> misses = new List<AudioClip>();
     //public AudioClip errorEffect;
 
-    [SerializeField] AudioSource musicAudioSource;
-    [SerializeField] AudioSource effectsAudioSource;
-    [SerializeField] Settings settings;
+    [SerializeField] AudioSource musicAudioSource = null;
+    [SerializeField] AudioSource effectsAudioSource = null;
+    [SerializeField] Settings settings = null;
 
     private bool PlayingMusic
     {

@@ -29,7 +29,6 @@ public static class PersistentData
 
     public static bool SetLevelToLoad(Level level)
     {
-        Debug.Log(level.name);
         if(level.UnlockLevel(playerData.totalStars))
         {
             levelToLoad = level;
@@ -84,5 +83,5 @@ public static class PersistentData
 [Serializable]
 public class GameData
 {
-    public List<LevelInfo> levelsData = new List<LevelInfo>();
+    public List<Level> levelsData = new List<Level>();
 }

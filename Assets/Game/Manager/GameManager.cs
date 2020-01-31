@@ -17,6 +17,8 @@ public class GameManager : Manager<GameManager>
     [SerializeField] private Text trashNameText = null;
     [SerializeField] private Text levelText = null;
 
+    [SerializeField] private Text nextLevelStarsText = null;
+
     private Vector3 trashHolderPosition = Vector3.zero;
 
     public Level level;
@@ -29,7 +31,6 @@ public class GameManager : Manager<GameManager>
     public UnityEvent OnPlayerMissess;
 
     public UnityEvent OnHelpButtonClick;
-    public UnityEvent OnUpdateUI;
 
     private int _misses;
     public int Misses
@@ -42,6 +43,8 @@ public class GameManager : Manager<GameManager>
         {
             _misses = value;
 
+            missesText.text = Misses.ToString();
+
             OnPlayerMissess.Invoke();
         }
     }
@@ -51,8 +54,20 @@ public class GameManager : Manager<GameManager>
 
     private int currentLevelIndex = 0;
 
-    private float timeStarted;
-    private float currentTime;
+    private float _time;
+    private float Time
+    {
+        get
+        {
+            return _time;
+        }
+        set
+        {
+            _time = value;
+
+            timeText.text = Mathf.Round(_time).ToString();
+        }
+    }
 
     private void OnEnable()
     {
@@ -68,16 +83,15 @@ public class GameManager : Manager<GameManager>
             SetLevel(PersistentData.levelToLoad);
         else
             OnLevelStarted.Invoke();
-
-        timeStarted = Time.time;
-
-        trashHolderPosition = trash.transform.position;
     }
 
-    private void Update()
+    private IEnumerator UpdateTime()
     {
-        currentTime = Time.time - timeStarted;
-        OnUpdateUI.Invoke();
+        Time += 1;
+
+        yield return new WaitForSeconds(1f);
+
+        StartCoroutine(UpdateTime());
     }
 
     public void SetLevel(Level level)
@@ -107,7 +121,6 @@ public class GameManager : Manager<GameManager>
         if(currentLevelIndex < level.trashes.Count)
         {
             trash.TrashItem = level.trashes[currentLevelIndex];
-            ResetPosition();
         }
         else
         {
@@ -119,12 +132,6 @@ public class GameManager : Manager<GameManager>
     public void GameOver()
     {
         OnGameOver.Invoke();
-    }
-
-    public void ResetPosition()
-    {
-        if(trash != null)
-            trash.transform.position = transform.position;
     }
 
     public void EarnStars()
@@ -139,9 +146,7 @@ public class GameManager : Manager<GameManager>
             starsToEarn += 1;
         }
 
-        float time = Time.time - timeStarted;
-
-        if(time < this.level.timeToEarnStar)
+        if(Time < this.level.timeToEarnStar)
         {
             //level.timeStar = true;
             starsToEarn += 1;
@@ -170,24 +175,9 @@ public class GameManager : Manager<GameManager>
         SceneManager.LoadScene(sceneName);
     }
 
-    public void UpdateMisses()
-    {
-        missesText.text = Misses.ToString();
-    }
-
-    public void UpdateTime()
-    {
-        timeText.text = Mathf.Round(currentTime).ToString();
-    }
-
     public void ShowTrashName()
     {
         trashNameText.text = trash.TrashItem._name;
-    }
-
-    public void Pause(bool pause)
-    {
-        Time.timeScale = pause ? 0 : 1;
     }
 
     private void ShowStars(int stars)
@@ -197,10 +187,28 @@ public class GameManager : Manager<GameManager>
             Instantiate(starPrefab, starsHolder);
         }
     }
+    
+    public void Pause(bool pause)
+    {
+        UnityEngine.Time.timeScale = pause ? 0 : 1;
+    }
 
     public void HelpButtonClick()
     {
         OnHelpButtonClick.Invoke();
+    }
+
+    public void CheckNextLevel(Button button)
+    {
+        bool canPlayNextLevel = PersistentData.SetLevelToLoad(PersistentData.levels[level.levelNum + 1]);
+        button.interactable = canPlayNextLevel;
+
+        if(!canPlayNextLevel)
+        {
+            nextLevelStarsText.enabled = true;
+
+            nextLevelStarsText.text = "Stars Needed: " + PersistentData.levels[level.levelNum + 1].starsToUnlock;
+        }     
     }
 
     public void NextLevel()
@@ -209,25 +217,7 @@ public class GameManager : Manager<GameManager>
         {
             LoadScene("Level");
         }
-        else OnGameOver.Invoke();   
-        /*
-        for (int i = 0; i < data.levelAssests.Count; i++)
-        {
-            Level level = data.levelAssests[i];
-
-            if(level.levelNum == this.level.levelNum)
-            {
-                if(i + 1 < data.levelAssests.Count)
-                {
-                    data.SetLevelToLoad(data.levelAssests[i + 1]);
-                    LoadScene("Level");
-                }
-                else
-                {
-                    OnGameOver.Invoke();
-                }
-            }
-        }*/
+        else OnGameOver.Invoke();
     }
 
     public void PlayTrashName()

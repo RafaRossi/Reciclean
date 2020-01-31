@@ -8,5 +8,5 @@ public class TrashAssets : ScriptableObject
     public string _name;
     public Sprite sprite;
     public AudioClip sound;
-    public TrashType trash;
+    public TrashType trashType;
 }
