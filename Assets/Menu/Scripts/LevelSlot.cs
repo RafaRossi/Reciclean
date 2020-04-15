@@ -35,6 +35,6 @@ public class LevelSlot : Button
     public void SetLevel()
     {
         if(PersistentData.SetLevelToLoad(level))
-            MenuManager.Instance.LoadLevel("Level");
+            MenuManager.Instance.LoadLevel(level.levelType);
     }
 }

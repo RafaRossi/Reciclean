@@ -9,15 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f591cb844072634986e68a577f6103b, type: 3}
+  m_Script: {fileID: 11500000, guid: adda3b523f7440f48ba2925400548b1f, type: 3}
   m_Name: Level 3
   m_EditorClassIdentifier: 
   levelNum: 3
-  starsToUnlock: 3
-  timeToEarnStar: 10
+  levelType: {fileID: 11400000, guid: 58fcf2e6849aed949bc272744c05b4c3, type: 2}
+  starsToUnlock: 0
   starsScored: 0
   isComplete: 0
-  trashCans:
-  - {fileID: 11400000, guid: bffc5cad249fc19488e55ecb22b58da6, type: 2}
-  trashes:
-  - {fileID: 11400000, guid: 5480283b552763f4d9e0fb121112eebe, type: 2}
+  trashCans: []
+  trashes: []
+  timeToEarnStar: Infinity

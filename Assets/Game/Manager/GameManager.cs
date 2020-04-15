@@ -8,129 +8,44 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Manager<GameManager>
 {
-    [SerializeField]
-    private List<TrashCan> trashCans = new List<TrashCan>();
+    public BaseLevel Level
+    {
+        get
+        {
+            return PersistentData.levelToLoad;
+        }
+    }
 
-    public Trash trash;
-
-    [SerializeField] private TMP_Text missesText = null;
-    [SerializeField] private TMP_Text timeText = null;
-    [SerializeField] private TMP_Text trashNameText = null;
-    [SerializeField] private TMP_Text levelText = null;
-
-    [SerializeField] private TMP_Text nextLevelStarsText = null;
-
-    private Vector3 trashHolderPosition = Vector3.zero;
-
-    public Level level;
-
-    public UnityEvent OnLevelStarted;
-    public UnityEvent OnLevelEnded;
-    public UnityEvent OnGameOver;
-
-    public UnityEvent OnPlayerScore;
-    public UnityEvent OnPlayerMissess;
-
-    public UnityEvent OnHelpButtonClick;
-
-    private int _misses;
+    [Header("Properties")]
+    [SerializeField] private Integer _misses = null;
     public int Misses
     {
         get
         {
-            return _misses;
+            return _misses.Value;
         }
         set
         {
-            _misses = value;
-
-            missesText.text = Misses.ToString();
+            _misses.Value = value;
 
             OnPlayerMissess.Invoke();
         }
     }
+    
+    [SerializeField] private TMP_Text nextLevelStarsText = null;
 
-    private float _time;
-    private float Time
-    {
-        get
-        {
-            return _time;
-        }
-        set
-        {
-            _time = value;
-
-            timeText.text = Mathf.Round(_time).ToString();
-        }
-    }
-
+    [Header("Stars")]
     public GameObject starPrefab;
     public Transform starsHolder;
 
-    private int currentLevelIndex = 0;
+    [Header("Events")] 
+    public UnityEvent OnGameOver;
+    public UnityEvent OnPlayerScore;
+    public UnityEvent OnPlayerMissess;
 
-    private void OnEnable()
-    {
-        foreach (TrashCan trashCan in trashCans)
-        {
-            trashCan.gameObject.SetActive(false);
-        }
-    }
-
-    private void Start()
-    {
-        if (PersistentData.levelToLoad != null)
-            SetLevel(PersistentData.levelToLoad);
-        else
-            OnLevelStarted.Invoke();
-
-        StartCoroutine(UpdateTime());
-    }
-
-    private IEnumerator UpdateTime()
-    {
-        Time += 1;
-
-        yield return new WaitForSeconds(1f);
-
-        StartCoroutine(UpdateTime());
-    }
-
-    public void SetLevel(Level level)
-    {
-        this.level = level;
-
-        levelText.text = level.levelNum.ToString();
-
-        OnLevelStarted.Invoke();
-    }
-
-    public void SetTrashCans()
-    {
-        for (int i = 0; i < level.trashCans.Count; i++)
-        {
-            trashCans[i].gameObject.SetActive(true);
-            trashCans[i].SetTrashCan(level.trashCans[i]);
-        }
-    }
-
-    public void SetTrash(int i)
-    {
-        currentLevelIndex += i;
-
-        trashNameText.text = "";
-
-        if(currentLevelIndex < level.trashes.Count)
-        {
-            trash.TrashItem = level.trashes[currentLevelIndex];
-        }
-        else
-        {
-            level.isComplete = true;
-            OnLevelEnded.Invoke();
-        }
-    }
+    [Header("Help")]
+    public UnityEvent OnHelpButtonClick;
+    public TrashNameText trashName;
 
     public void GameOver()
     {
@@ -139,30 +54,7 @@ public class GameManager : Manager<GameManager>
 
     public void EarnStars()
     {
-        //LevelInfo level = PersistentData.levelToLoad.info;
-
-        int starsToEarn = 0;
-
-        if (Misses <= 0)
-        {
-            //level.noMissesStar = true;
-            starsToEarn += 1;
-        }
-
-        if(Time < this.level.timeToEarnStar)
-        {
-            //level.timeStar = true;
-            starsToEarn += 1;
-        }
-
-        //level.levelEndedStar = true;
-        starsToEarn += 1;
-
-        if(starsToEarn >= level.starsScored)
-        {
-            level.starsScored = starsToEarn;
-            //PersistentData.Save();
-        }
+        int starsToEarn = Level.EarnStars();
 
         PersistentData.playerData.UpdateStarAmount();
         ShowStars(starsToEarn);
@@ -173,14 +65,9 @@ public class GameManager : Manager<GameManager>
         SceneManager.LoadScene(sceneNum);
     }
 
-    public void LoadScene(string sceneName)
+    public void LoadScene(LevelType level)
     {
-        SceneManager.LoadScene(sceneName);
-    }
-
-    public void ShowTrashName()
-    {
-        trashNameText.text = trash.TrashItem._name;
+        SceneManager.LoadScene(level.levelName);
     }
 
     private void ShowStars(int stars)
@@ -193,7 +80,7 @@ public class GameManager : Manager<GameManager>
     
     public void Pause(bool pause)
     {
-        UnityEngine.Time.timeScale = pause ? 0 : 1;
+        Time.timeScale = pause ? 0 : 1;
     }
 
     public void HelpButtonClick()
@@ -203,26 +90,19 @@ public class GameManager : Manager<GameManager>
 
     public void CheckNextLevel(Button button)
     {
-        bool canPlayNextLevel = PersistentData.SetLevelToLoad(PersistentData.levels[level.levelNum + 1]);
+        BaseLevel nextLevel = PersistentData.GetLevel(Level.levelNum + 1, Level.levelType);
+
+        bool canPlayNextLevel = PersistentData.SetLevelToLoad(nextLevel);
         button.interactable = canPlayNextLevel;
 
         if(!canPlayNextLevel)
         {
-            nextLevelStarsText.text = "Stars Needed: " + PersistentData.levels[level.levelNum + 1].starsToUnlock;
+            nextLevelStarsText.text = "Stars Needed: " + nextLevel.starsToUnlock;
         }     
-    }
-
-    public void NextLevel()
-    {
-        if(PersistentData.SetLevelToLoad(PersistentData.levels[level.levelNum + 1]))
-        {
-            LoadScene("Level");
-        }
-        else OnGameOver.Invoke();
     }
 
     public void PlayTrashName()
     {
-        AudioManager.Instance.PlayEffect(trash.TrashItem.sound);
+        //AudioManager.Instance.PlayEffect(Trash.TrashItem.sound);
     }
 }

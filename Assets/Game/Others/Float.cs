@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "float", menuName = "Variables/Float")]
+[CreateAssetMenu(fileName = "Float", menuName = "Variables/Float")]
 public class Float : Variables<float>
 {
     

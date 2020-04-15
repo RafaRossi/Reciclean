@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class TrashCan : MonoBehaviour
 {
-    private Can trashCan;
+    public Can trashCan;
 
     private void Start() 
     {
@@ -15,7 +15,7 @@ public class TrashCan : MonoBehaviour
         droppable.Drop += OnDrop;    
     }
 
-    public void SetTrashCan(Can trashCan)
+    public void Initialize(Can trashCan)
     {
         this.trashCan = trashCan;
 
@@ -38,6 +38,10 @@ public class TrashCan : MonoBehaviour
             if(CheckTrashCan(trash.TrashItem))
             {
                 GameManager.Instance.OnPlayerScore.Invoke();
+            }
+            else
+            {
+                GameManager.Instance.Misses += 1;
             }
         }
     }

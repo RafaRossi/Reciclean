@@ -2,44 +2,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Level", menuName = "Level")]
-public class Level : ScriptableObject
+public abstract class BaseLevel: ScriptableObject
 {
     [Header("Level Info")]
     public int levelNum = 0;
+    public LevelType levelType;
     public int starsToUnlock = 0;
-    public float timeToEarnStar = Mathf.Infinity;
 
     [Header("Player Data")]
     public int starsScored = 0;
     public bool isComplete = false;
 
     [Header("Level Properties")]
+    public Sprite backGroundImage;
     public List<Can> trashCans = new List<Can>();
     public List<TrashAssets> trashes = new List<TrashAssets>();
 
-    public void ResetLevel()
+    public virtual void ResetLevel()
     {
         levelNum = 0;
         starsToUnlock = 0;
         starsScored = 0;
-        timeToEarnStar = Mathf.Infinity;
+        
         isComplete = false;
+
+        backGroundImage = null;
 
         trashCans.Clear();
         trashes.Clear();;
     }
 
-    public void ClearLevel()
+    public virtual void ClearLevel()
     {
         starsScored = 0;
         isComplete = false;
     }
 
-    public bool UnlockLevel(int starCount)
+    public virtual bool UnlockLevel(int starCount)
     {
-        Level previousLevel = PersistentData.GetLevel(levelNum - 1);
+        BaseLevel previousLevel = PersistentData.GetLevel(levelNum - 1, levelType);
 
         return starCount >= starsToUnlock && (previousLevel == null || previousLevel.isComplete);
     }
+
+    public abstract void InitializeLevel();
+    
+    public abstract int EarnStars();
 }

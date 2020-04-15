@@ -7,7 +7,7 @@ using System;
 
 public class Trash : MonoBehaviour
 {
-    private TrashAssets trashItem;
+    protected TrashAssets trashItem;
     public TrashAssets TrashItem
     {
         get
@@ -23,35 +23,65 @@ public class Trash : MonoBehaviour
         }
     }
 
-    [SerializeField] private CanvasGroup canvasGroup = null;
+    [SerializeField] protected CanvasGroup canvasGroup = null;
 
-    private Vector3 trashHolderPosition;
+    [SerializeField] protected Transform trashHolder;
+
+    protected bool isBeingDragged;
+
+    protected virtual void Initialize()
+    {
+        SetHolderPosition();
+    }
 
     private void Start()
     {
-        trashHolderPosition = transform.position;
-        
+        Initialize();
+
         Draggable draggable = GetComponent<Draggable>();
 
         draggable.OnDragBegin += (e) => {
             canvasGroup.blocksRaycasts = false;
+            isBeingDragged = true;
         };
 
-        draggable.Drag += MoveTrash;
+        draggable.Drag += Drag;
 
-        draggable.OnDragEnd += (e) =>{
-            ResetPosition();
+        draggable.OnDragEnd += (e) =>{        
             canvasGroup.blocksRaycasts = true;
+            isBeingDragged = false;
+            ResetPosition();
         };
     }
 
-    private void MoveTrash(PointerEventData eventData)
+    private void Drag(PointerEventData eventData)
     {
-        transform.position = eventData.position;
+        MoveTrash(eventData.position);
     }
 
-    private void ResetPosition()
+    protected virtual void MoveTrash(Vector3 direction)
     {
-        transform.position = trashHolderPosition;
+        transform.position = direction;
+    }
+
+    protected virtual void ResetPosition()
+    {
+        MoveTrash(trashHolder.position);
+    }
+
+    private void SetHolderPosition()
+    {
+        if(trashHolder)
+            trashHolder.position = transform.position;
+    }
+
+    public void ShowTrashName()
+    {
+        GameManager.Instance.trashName.ShowTrashName(trashItem);
+    }
+
+    public void HideTrashName()
+    {
+        GameManager.Instance.trashName.HideTrashName();
     }
 }

@@ -8,26 +8,25 @@ using UnityEditor;
 
 public static class PersistentData
 {
-    public static Dictionary<int, Level> levels = new Dictionary<int, Level>();
+    public static List<BaseLevel> levels = new List<BaseLevel>();
 
-    public static Level levelToLoad;
+    public static BaseLevel levelToLoad;
 
     public static PlayerData playerData = (PlayerData)AssetDatabase.LoadAssetAtPath("Assets/Game/Player/PlayerData.asset", typeof(PlayerData));
 
-    [RuntimeInitializeOnLoadMethod]
-    public static void InitializeDictionary()
+    [RuntimeInitializeOnLoadMethod] public static void InitializeDictionary()
     {
         levels.Clear();
 
         foreach (Level level in playerData.levels)
         {
-            levels.Add(level.levelNum, level);
+            levels.Add(level);
         }
 
         playerData.UpdateStarAmount();
     }
 
-    public static bool SetLevelToLoad(Level level)
+    public static bool SetLevelToLoad(BaseLevel level)
     {
         if(level.UnlockLevel(playerData.totalStars))
         {
@@ -38,13 +37,14 @@ public static class PersistentData
         return false;          
     }
 
-    public static Level GetLevel(int levelNum)
+    public static BaseLevel GetLevel(int levelNum, LevelType levelType)
     {
-        Level level = null;
-
-        if(levels.TryGetValue(levelNum, out level))
+        foreach (BaseLevel level in levels)
         {
-            return level;
+            if(level.levelType == levelType && level.levelNum == levelNum)
+            {
+                return level;
+            }
         }
         return null;
     }

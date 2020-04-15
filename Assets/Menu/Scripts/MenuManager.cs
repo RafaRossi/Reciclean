@@ -16,9 +16,9 @@ public class MenuManager : Manager<MenuManager>
         }
     }
 
-    public void LoadLevel(string sceneName)
+    public void LoadLevel(LevelType level)
     {
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(level.levelName);
     }
     public void Quit()
     {

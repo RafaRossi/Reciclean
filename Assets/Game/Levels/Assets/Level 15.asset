@@ -9,36 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f591cb844072634986e68a577f6103b, type: 3}
+  m_Script: {fileID: 11500000, guid: adda3b523f7440f48ba2925400548b1f, type: 3}
   m_Name: Level 15
   m_EditorClassIdentifier: 
   levelNum: 15
-  starsToUnlock: 28
-  timeToEarnStar: 100
-  trashCans:
-  - {fileID: 11400000, guid: 514d12b8186706c4584b8e4db7c068ef, type: 2}
-  - {fileID: 11400000, guid: 290066088588f1f41b046cfa9f5b58a8, type: 2}
-  - {fileID: 11400000, guid: bffc5cad249fc19488e55ecb22b58da6, type: 2}
-  - {fileID: 11400000, guid: af50c29e7cda56742a22c5c1dae9ec2b, type: 2}
-  - {fileID: 11400000, guid: b4bfe081798cb5342b0c4f79b86c157d, type: 2}
-  trashes:
-  - {fileID: 11400000, guid: 5a6ef647d5d432644bca70a256b80d48, type: 2}
-  - {fileID: 11400000, guid: 5480283b552763f4d9e0fb121112eebe, type: 2}
-  - {fileID: 11400000, guid: 5ad744e424523324c8bc5384a2db4102, type: 2}
-  - {fileID: 11400000, guid: c4a8f2892d0271048aa87b4745cdcc67, type: 2}
-  - {fileID: 11400000, guid: 575dc134129c6d04b8ef047d817da6f9, type: 2}
-  - {fileID: 11400000, guid: 4b43dd9d1c002ac418671bc6ac8c6cd2, type: 2}
-  - {fileID: 11400000, guid: dbe88f44f351a304ab0dde543dadd6d8, type: 2}
-  - {fileID: 11400000, guid: 5a6ef647d5d432644bca70a256b80d48, type: 2}
-  - {fileID: 11400000, guid: 7a60bf083b6ee054c8daab52beb5610e, type: 2}
-  - {fileID: 11400000, guid: 17d4ac467ad1bbd45b2b0671862ee919, type: 2}
-  - {fileID: 11400000, guid: a557316024e8a164fbbcb55d425ba0d3, type: 2}
-  - {fileID: 11400000, guid: 6f4eeccb5b2077e4a9c4a931f7712f01, type: 2}
-  - {fileID: 11400000, guid: 575dc134129c6d04b8ef047d817da6f9, type: 2}
-  - {fileID: 11400000, guid: 3d84c797bb09d5f4ab8eec420d0565c1, type: 2}
-  - {fileID: 11400000, guid: 4939bc85299591642ac9e4159c7f1e7b, type: 2}
-  - {fileID: 11400000, guid: 021ea8ce079c1034b97e7cc06dddd881, type: 2}
-  - {fileID: 11400000, guid: 901333c93e169ec41a74ff2fc9661130, type: 2}
-  - {fileID: 11400000, guid: 15628823b79a3e644853cc5c6afb0a6b, type: 2}
-  - {fileID: 11400000, guid: 2f2396a21d9cf20459abdabde5bdd2a6, type: 2}
-  - {fileID: 11400000, guid: 5ad744e424523324c8bc5384a2db4102, type: 2}
+  levelType: {fileID: 11400000, guid: 58fcf2e6849aed949bc272744c05b4c3, type: 2}
+  starsToUnlock: 0
+  starsScored: 0
+  isComplete: 0
+  trashCans: []
+  trashes: []
+  timeToEarnStar: Infinity
